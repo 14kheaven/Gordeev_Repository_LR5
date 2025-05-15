@@ -8,21 +8,25 @@ using namespace std;
 
 // Функция контроля ввода данных
 bool UserInput(string input) {
-    if (input.empty()) return false;
+   if (input.empty()) return false;
     try {
-        int number = stoi(input);
+        size_t pos;
+        int number = stoi(input, &pos);
+        // Проверяем, что вся строка преобразована и число положительное
+        if (pos != input.length() || number <= 0) return false;
+        return true;
+    } catch (...) {
+        return false;
     }
-    catch (...)
-    { return false; }
-    return true;
 }
 
 // Метод ввода данных
 void EnterDigit(int& varLink, const string& label) {
-    string raw_input;
+   string raw_input;
     cout << label << " = ";
     getline(cin, raw_input);
     while (!UserInput(raw_input)) {
+        cout << "Ошибка! Введите положительное целое число.\n";
         cout << label << " = ";
         getline(cin, raw_input);
     }
